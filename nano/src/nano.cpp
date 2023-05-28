@@ -31,9 +31,9 @@ void outputs_init()
   yaw_servo.attach(YAW_OUT);
 
   // engine calibration
-  engine.writeMicroseconds(2500); // 2300 - old engine
+  engine.writeMicroseconds(2500); // 2300 - old ESC
   delay(2000);
-  engine.writeMicroseconds(1000); // 800 - old engine
+  engine.writeMicroseconds(1000); // 800 - old ESC
   delay(5000);
 }
 
@@ -67,6 +67,7 @@ void setup()
 void print_data()
 {
   size_t data_size = sizeof(received_data) / sizeof(received_data[0]);
+  // mode thrust roll pitch yaw
   for (size_t i = 0; i < data_size; i++)
   {
     Serial.print(received_data[i]);
@@ -80,8 +81,8 @@ void write_data()
 {
   // int mode = received_data[0];
 
-  int thrust_val = map(received_data[1], 0, 255, 1000, 2500); // 800 2270 - old engine
-  thrust_val = constrain(thrust_val, 1000, 2500); // 800 2270 - old engine
+  int thrust_val = map(received_data[1], 0, 255, 1000, 2500); // 800 2270 - old ESC
+  thrust_val = constrain(thrust_val, 1000, 2500); // 800 2270 - old ESC
   engine.writeMicroseconds(thrust_val);
 
   int roll_val = received_data[2];
