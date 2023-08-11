@@ -20,6 +20,8 @@ Servo right_servo;
 Servo pitch_servo;
 Servo yaw_servo;
 
+int min_thrust = 1000; // old: 800, VGOOD: 1000, SunnySky: 1000
+int max_thrust = 2000; // old: 2270, VGOOD: 2500, SunnySky: 2000
 byte received_data[5];
 
 void outputs_init()
@@ -31,9 +33,9 @@ void outputs_init()
   yaw_servo.attach(YAW_OUT);
 
   // engine calibration
-  engine.writeMicroseconds(2500); // 2300 - old ESC
+  engine.writeMicroseconds(max_thrust);
   delay(2000);
-  engine.writeMicroseconds(1000); // 800 - old ESC
+  engine.writeMicroseconds(min_thrust);
   delay(5000);
 }
 
@@ -81,8 +83,8 @@ void write_data()
 {
   // int mode = received_data[0];
 
-  int thrust_val = map(received_data[1], 0, 255, 1000, 2500); // 800 2270 - old ESC
-  thrust_val = constrain(thrust_val, 1000, 2500); // 800 2270 - old ESC
+  int thrust_val = map(received_data[1], 0, 255, min_thrust, max_thrust);
+  thrust_val = constrain(thrust_val, min_thrust, max_thrust);
   engine.writeMicroseconds(thrust_val);
 
   int roll_val = received_data[2];
