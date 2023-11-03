@@ -20,8 +20,8 @@ Servo right_servo;
 Servo pitch_servo;
 Servo yaw_servo;
 
-int min_thrust = 1000; // old: 800, VGOOD: 1000, SunnySky: 1000
-int max_thrust = 2000; // old: 2270, VGOOD: 2500, SunnySky: 2000
+int min_thrust = 800; // old: 800, VGOOD: 1000, SunnySky: 1000
+int max_thrust = 2270; // old: 2270, VGOOD: 2500, SunnySky: 2000
 byte received_data[5];
 
 void outputs_init()
@@ -33,9 +33,9 @@ void outputs_init()
   yaw_servo.attach(YAW_OUT);
 
   // engine calibration
-  engine.writeMicroseconds(min_thrust);
-  delay(2000);
   engine.writeMicroseconds(max_thrust);
+  delay(2000);
+  engine.writeMicroseconds(min_thrust);
   delay(5000);
 }
 
